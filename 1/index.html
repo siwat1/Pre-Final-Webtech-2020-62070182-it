@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ezquiz</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css
+"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js
+"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js
+"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js
+"></script>
+</head>
+<body>
+    <div class="container" id="name1"></div>
+
+    <script>
+      let requestURL = "ezquiz.json";
+      let request = new XMLHttpRequest();
+      request.onreadystatechange = function () {
+        if (request.readyState == 4 && request.status == 200) {
+          dataReportStatus(JSON.parse(request.responseText));
+        }
+      };
+      request.open("GET", requestURL, true);
+      request.send();
+
+      function dataReportStatus(data) {
+        var name2 = document.getElementById("name1");
+        for(i=0 ; i<data.tracks.items.length ;){
+          var name3 = document.createElement("div");
+          name3.setAttribute("class","row");
+          for(j=0 ; j<3 && i<data.tracks.items.length ;j++,i++){
+            var name4 = document.createElement("div");
+            name4.setAttribute("class","col-4");
+            var name5 = document.createElement("img");
+            name5.setAttribute("src",data.tracks.items[i].album.images[1].url);
+            name4.appendChild(name5);
+            var name6 = document.createElement("p");
+            name6.innerHTML = "<br><b>"+data.tracks.items[i].album.name+"</b><br>Artist: "+data.tracks.items[i].album.artists[0].name+"</b><br>Release date: "+
+                            data.tracks.items[i].album.release_date+"</b><br>Avaliable: "+data.tracks.items[i].album.available_markets.length+" countries";
+            name4.appendChild(name6);
+            name3.appendChild(name4);
+          }
+          name2.appendChild(name3);
+        }
+      }
+    </script>
+</body>
+</html>
